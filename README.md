@@ -1,6 +1,6 @@
-# Ionic Fake Card
+# Scholar
 
-This application is purely a kitchen-sink demo of the Ionic Framework and Angular.
+This application is purely a kitchen-sink demo of the Ionic Framework with Angular.
 
 ## Table of Contents
 
@@ -20,8 +20,6 @@ This application is purely a kitchen-sink demo of the Ionic Framework and Angula
 - Run `npm install` from the project root.
 - Run `ionic serve` in a terminal from the project root.
 - Profit. :tada:
-
-_Note: See [How to Prevent Permissions Errors](https://docs.npmjs.com/getting-started/fixing-npm-permissions) if you are running into issues when trying to install packages globally._
 
 ## Deploying
 
