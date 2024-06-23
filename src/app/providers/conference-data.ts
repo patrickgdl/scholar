@@ -1,12 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { of } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { UserData } from './user-data';
+import { UserData } from "./user-data";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ConferenceData {
   data: any;
@@ -18,7 +18,7 @@ export class ConferenceData {
       return of(this.data);
     } else {
       return this.http
-        .get('assets/data/data.json')
+        .get("assets/data/data.json")
         .pipe(map(this.processData, this));
     }
   }
@@ -28,45 +28,24 @@ export class ConferenceData {
     // build up the data by linking speakers to sessions
     this.data = data;
 
-    // loop through each day in the schedule
-    this.data.schedule.forEach((day: any) => {
-      // loop through each timeline group in the day
-      day.groups.forEach((group: any) => {
-        // loop through each session in the timeline group
-        group.sessions.forEach((session: any) => {
-          session.speakers = [];
-          if (session.speakerNames) {
-            session.speakerNames.forEach((speakerName: any) => {
-              const speaker = this.data.speakers.find(
-                (s: any) => s.name === speakerName
-              );
-              if (speaker) {
-                session.speakers.push(speaker);
-                speaker.sessions = speaker.sessions || [];
-                speaker.sessions.push(session);
-              }
-            });
-          }
-        });
-      });
-    });
-
     return this.data;
   }
 
   getTimeline(
     dayIndex: number,
-    queryText = '',
+    queryText = "",
     excludeTracks: any[] = [],
-    segment = 'all'
+    segment = "all"
   ) {
     return this.load().pipe(
       map((data: any) => {
         const day = data.schedule[dayIndex];
         day.shownSessions = 0;
 
-        queryText = queryText.toLowerCase().replace(/,|\.|-/g, ' ');
-        const queryWords = queryText.split(' ').filter(w => !!w.trim().length);
+        queryText = queryText.toLowerCase().replace(/,|\.|-/g, " ");
+        const queryWords = queryText
+          .split(" ")
+          .filter((w) => !!w.trim().length);
 
         day.groups.forEach((group: any) => {
           group.hide = true;
@@ -119,7 +98,7 @@ export class ConferenceData {
     // if the segment is 'favorites', but session is not a user favorite
     // then this session does not pass the segment test
     let matchesSegment = false;
-    if (segment === 'favorites') {
+    if (segment === "favorites") {
       if (this.user.hasFavorite(session.name)) {
         matchesSegment = true;
       }
@@ -129,18 +108,6 @@ export class ConferenceData {
 
     // all tests must be true if it should not be hidden
     session.hide = !(matchesQueryText && matchesTracks && matchesSegment);
-  }
-
-  getSpeakers() {
-    return this.load().pipe(
-      map((data: any) => {
-        return data.speakers.sort((a: any, b: any) => {
-          const aName = a.name.split(' ').pop();
-          const bName = b.name.split(' ').pop();
-          return aName.localeCompare(bName);
-        });
-      })
-    );
   }
 
   getTracks() {

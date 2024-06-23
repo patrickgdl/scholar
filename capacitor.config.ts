@@ -1,9 +1,9 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'ionic.conference.app',
-  appName: 'ionic-conference-app',
-  webDir: 'www',
+  appId: "ionic.scholar.app",
+  appName: "scholar",
+  webDir: "www",
   bundledWebRuntime: false,
   plugins: {
     SplashScreen: {
